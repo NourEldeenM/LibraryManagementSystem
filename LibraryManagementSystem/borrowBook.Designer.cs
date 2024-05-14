@@ -37,6 +37,8 @@
             this.IsbnNotCorrect = new System.Windows.Forms.Label();
             this.borrowBtn = new System.Windows.Forms.Button();
             this.usernameNotValid = new System.Windows.Forms.Label();
+            this.isbnNotFound = new System.Windows.Forms.Label();
+            this.bookFinished = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label
@@ -135,12 +137,38 @@
             this.usernameNotValid.TabIndex = 22;
             this.usernameNotValid.Text = "Username not found";
             // 
+            // isbnNotFound
+            // 
+            this.isbnNotFound.AutoSize = true;
+            this.isbnNotFound.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.isbnNotFound.ForeColor = System.Drawing.Color.Red;
+            this.isbnNotFound.Location = new System.Drawing.Point(103, 385);
+            this.isbnNotFound.Name = "isbnNotFound";
+            this.isbnNotFound.Size = new System.Drawing.Size(270, 21);
+            this.isbnNotFound.TabIndex = 23;
+            this.isbnNotFound.Text = "ISBN not valid or book is missing";
+            this.isbnNotFound.Click += new System.EventHandler(this.isbnNotFound_Click);
+            // 
+            // bookFinished
+            // 
+            this.bookFinished.AutoSize = true;
+            this.bookFinished.Font = new System.Drawing.Font("Century Gothic", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bookFinished.ForeColor = System.Drawing.Color.Red;
+            this.bookFinished.Location = new System.Drawing.Point(141, 385);
+            this.bookFinished.Name = "bookFinished";
+            this.bookFinished.Size = new System.Drawing.Size(180, 21);
+            this.bookFinished.TabIndex = 24;
+            this.bookFinished.Text = "Book is out of copies";
+            this.bookFinished.Click += new System.EventHandler(this.bookFinished_Click);
+            // 
             // borrowBook
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(14F, 27F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(226)))), ((int)(((byte)(239)))));
             this.ClientSize = new System.Drawing.Size(462, 548);
+            this.Controls.Add(this.bookFinished);
+            this.Controls.Add(this.isbnNotFound);
             this.Controls.Add(this.usernameNotValid);
             this.Controls.Add(this.borrowBtn);
             this.Controls.Add(this.IsbnNotCorrect);
@@ -155,6 +183,7 @@
             this.Name = "borrowBook";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "borrowBook";
+            this.Load += new System.EventHandler(this.borrowBook_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -171,5 +200,7 @@
         private System.Windows.Forms.Label IsbnNotCorrect;
         private System.Windows.Forms.Button borrowBtn;
         private System.Windows.Forms.Label usernameNotValid;
+        private System.Windows.Forms.Label isbnNotFound;
+        private System.Windows.Forms.Label bookFinished;
     }
 }
