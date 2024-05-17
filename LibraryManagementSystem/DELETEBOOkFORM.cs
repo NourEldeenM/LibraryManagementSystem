@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,19 +11,19 @@ using System.Windows.Forms;
 
 namespace WindowsFormsApp2
 {
-    public partial class Form1 : Form
+    public partial class DELETEBOOkFORM : Form
     {
-        String sql = "Data Source=NADRASAAD\\SQLEXPRESS;Initial Catalog=LIBRARY_DB;Integrated Security=True";
+        SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\LibraryManagementSystem\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security=True");
+        //SqlConnection connect = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\Study\DataBase\LibraryManagementSystem-master\LibraryManagementSystem-master\LibraryManagementSystem\LIBR_DB.mdf;Integrated Security = True");
+        ConnectionState state = ConnectionState.Open;
 
-        SqlConnection conn;
-
-        public Form1()
+        public DELETEBOOkFORM()
         {
             InitializeComponent();
-            conn = new SqlConnection(sql); // Initialize the SqlConnection object
+            //conn = new SqlConnection(sql); // Initialize the SqlConnection object
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void DELETEBOOkFORM_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = Loadbooktable();
         }
@@ -79,66 +79,72 @@ namespace WindowsFormsApp2
             }
         }
 
-        new modification  om deletion 
+        //new modification om deletion
 private void deletebtn_Click(object sender, EventArgs e)
-{
-    if (dataGridView1.CurrentRow != null)
-    {
-        DialogResult result = MessageBox.Show("Are you sure you want to delete this book?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-        if (result == DialogResult.Yes)
         {
-            try
+            if (dataGridView1.CurrentRow != null)
             {
-                conn.Open();
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this book?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        conn.Open();
 
-                // Delete related records from WRITTEN_BY table
-                string deleteWrittenByQuery = "DELETE FROM WRITTEN_BY WHERE ISBN = @isbn";
-                SqlCommand deleteWrittenByCmd = new SqlCommand(deleteWrittenByQuery, conn);
-                deleteWrittenByCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
-                deleteWrittenByCmd.ExecuteNonQuery();
-                
-                // Delete related records from BORROW table
-                string deleteBorrowQuery = "DELETE FROM BORROW WHERE ISBN = @isbn";
-                SqlCommand deleteBorrowCmd = new SqlCommand(deleteBorrowQuery, conn);
-                deleteBorrowCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
-                deleteBorrowCmd.ExecuteNonQuery();
-                
-                // Delete related records from BOOKCOPY table
-                string deleteCopiesQuery = "DELETE FROM BOOKCOPY WHERE ISBN = @isbn";
-                SqlCommand deleteCopiesCmd = new SqlCommand(deleteCopiesQuery, conn);
-                deleteCopiesCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
-                deleteCopiesCmd.ExecuteNonQuery();
+                        // Delete related records from WRITTEN_BY table
+                        string deleteWrittenByQuery = "DELETE FROM WRITTEN_BY WHERE ISBN = @isbn";
+                        SqlCommand deleteWrittenByCmd = new SqlCommand(deleteWrittenByQuery, conn);
+                        deleteWrittenByCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
+                        deleteWrittenByCmd.ExecuteNonQuery();
 
-                // Delete related records from MANAGE table
-                string deleteManageQuery = "DELETE FROM MANAGE WHERE ISBN = @isbn";
-                SqlCommand deleteManageCmd = new SqlCommand(deleteManageQuery, conn);
-                deleteManageCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
-                deleteManageCmd.ExecuteNonQuery();
+                        // Delete related records from BORROW table
+                        string deleteBorrowQuery = "DELETE FROM BORROW WHERE ISBN = @isbn";
+                        SqlCommand deleteBorrowCmd = new SqlCommand(deleteBorrowQuery, conn);
+                        deleteBorrowCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
+                        deleteBorrowCmd.ExecuteNonQuery();
 
-            
+                        // Delete related records from BOOKCOPY table
+                        string deleteCopiesQuery = "DELETE FROM BOOKCOPY WHERE ISBN = @isbn";
+                        SqlCommand deleteCopiesCmd = new SqlCommand(deleteCopiesQuery, conn);
+                        deleteCopiesCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
+                        deleteCopiesCmd.ExecuteNonQuery();
 
-                // Delete record from BOOK table
-                string deleteBookQuery = "DELETE FROM BOOK WHERE ISBN = @isbn";
-                SqlCommand deleteBookCmd = new SqlCommand(deleteBookQuery, conn);
-                deleteBookCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
-                deleteBookCmd.ExecuteNonQuery();
+                        // Delete related records from MANAGE table
+                        string deleteManageQuery = "DELETE FROM MANAGE WHERE ISBN = @isbn";
+                        SqlCommand deleteManageCmd = new SqlCommand(deleteManageQuery, conn);
+                        deleteManageCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
+                        deleteManageCmd.ExecuteNonQuery();
 
-                conn.Close();
-                MessageBox.Show("Book deleted successfully");
 
-                // Refresh DataGridView by re-loading data
-                dataGridView1.DataSource = Loadbooktable();
+
+                        // Delete record from BOOK table
+                        string deleteBookQuery = "DELETE FROM BOOK WHERE ISBN = @isbn";
+                        SqlCommand deleteBookCmd = new SqlCommand(deleteBookQuery, conn);
+                        deleteBookCmd.Parameters.AddWithValue("@isbn", dataGridView1.CurrentRow.Cells["ISBN"].Value.ToString());
+                        deleteBookCmd.ExecuteNonQuery();
+
+                        conn.Close();
+                        MessageBox.Show("Book deleted successfully");
+
+                        // Refresh DataGridView by re-loading data
+                        dataGridView1.DataSource = Loadbooktable();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Please select a row to delete.");
             }
         }
-    }
-    else
-    {
-        MessageBox.Show("Please select a row to delete.");
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
-    }
-}
+
