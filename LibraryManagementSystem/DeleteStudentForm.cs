@@ -75,43 +75,50 @@ namespace WindowsFormsApp3
 
         private void deletebtn_Click(object sender, EventArgs e)
         {
-            if (dataGridView1.CurrentRow != null)
+    if (dataGridView1.CurrentRow != null)
+    {
+        DialogResult result = MessageBox.Show("Are you sure you want to delete this user?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+        if (result == DialogResult.Yes)
+        {
+            try
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to delete this user?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                {
-                    try
-                    {
-                        conn.Open();
+                conn.Open();
 
-                        // Delete related records from STUDENT table
-                        string deleteStudentsQuery = "DELETE FROM STUDENT WHERE USER_ID = @userid";
-                        SqlCommand deleteStudentsCmd = new SqlCommand(deleteStudentsQuery, conn);
-                        deleteStudentsCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
-                        deleteStudentsCmd.ExecuteNonQuery();
+                // Delete related records from BORROW table
+                string deleteBorrowQuery = "DELETE FROM BORROW WHERE USER_ID = @userid";
+                SqlCommand deleteBorrowCmd = new SqlCommand(deleteBorrowQuery, conn);
+                deleteBorrowCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                deleteBorrowCmd.ExecuteNonQuery();
 
-                        // Delete record from USER table
-                        string deleteUserQuery = "DELETE FROM [USER] WHERE USER_ID = @userid";
-                        SqlCommand deleteUserCmd = new SqlCommand(deleteUserQuery, conn);
-                        deleteUserCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
-                        deleteUserCmd.ExecuteNonQuery();
+                // Delete related records from STUDENT table
+                string deleteStudentsQuery = "DELETE FROM STUDENT WHERE USER_ID = @userid";
+                SqlCommand deleteStudentsCmd = new SqlCommand(deleteStudentsQuery, conn);
+                deleteStudentsCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                deleteStudentsCmd.ExecuteNonQuery();
 
-                        conn.Close();
-                        MessageBox.Show("User deleted successfully");
+                // Delete record from USER table
+                string deleteUserQuery = "DELETE FROM [USER] WHERE USER_ID = @userid";
+                SqlCommand deleteUserCmd = new SqlCommand(deleteUserQuery, conn);
+                deleteUserCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                deleteUserCmd.ExecuteNonQuery();
 
-                        // Refresh DataGridView by re-loading data
-                        dataGridView1.DataSource = LoadUsertable();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
+                conn.Close();
+                MessageBox.Show("User deleted successfully");
+
+                // Refresh DataGridView by re-loading data
+                dataGridView1.DataSource = LoadUsertable();
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a row to delete.");
+                MessageBox.Show("Error: " + ex.Message);
             }
         }
+    }
+    else
+    {
+        MessageBox.Show("Please select a row to delete.");
+    }
+    }
+
     }
 }
