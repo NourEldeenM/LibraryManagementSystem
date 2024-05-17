@@ -1,6 +1,6 @@
-﻿namespace WindowsFormsApp2
+namespace WindowsFormsApp2
 {
-    partial class Form1
+    partial class DELETEBOOkFORM
     {
         /// <summary>
         /// Required designer variable.
@@ -28,96 +28,103 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.deletebtn = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.searchbtn = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            this.SuspendLayout();
+            deletebtn = new Button();
+            dataGridView1 = new DataGridView();
+            label1 = new Label();
+            searchbtn = new Button();
+            textBox1 = new TextBox();
+            label2 = new Label();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            SuspendLayout();
             // 
             // deletebtn
             // 
-            this.deletebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.deletebtn.Location = new System.Drawing.Point(330, 399);
-            this.deletebtn.Name = "deletebtn";
-            this.deletebtn.Size = new System.Drawing.Size(155, 39);
-            this.deletebtn.TabIndex = 2;
-            this.deletebtn.Text = "Delete Book";
-            this.deletebtn.UseVisualStyleBackColor = true;
-            this.deletebtn.Click += new System.EventHandler(this.deletebtn_Click);
+            deletebtn.Font = new Font("Microsoft Sans Serif", 16F);
+            deletebtn.Location = new Point(385, 460);
+            deletebtn.Margin = new Padding(4, 3, 4, 3);
+            deletebtn.Name = "deletebtn";
+            deletebtn.Size = new Size(181, 45);
+            deletebtn.TabIndex = 2;
+            deletebtn.Text = "Delete Book";
+            deletebtn.UseVisualStyleBackColor = true;
+            deletebtn.Click += deletebtn_Click;
             // 
             // dataGridView1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.dataGridView1.Location = new System.Drawing.Point(134, 134);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(560, 244);
-            this.dataGridView1.TabIndex = 4;
-            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.GridColor = Color.FromArgb(249, 247, 247);
+            dataGridView1.Location = new Point(156, 155);
+            dataGridView1.Margin = new Padding(4, 3, 4, 3);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.Size = new Size(653, 282);
+            dataGridView1.TabIndex = 4;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F);
-            this.label1.Location = new System.Drawing.Point(295, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(208, 29);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Dleate Book Form";
+            label1.AutoSize = true;
+            label1.Font = new Font("Microsoft Sans Serif", 18F);
+            label1.Location = new Point(344, 10);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(209, 29);
+            label1.TabIndex = 0;
+            label1.Text = "Delete Book Form";
+            label1.Click += label1_Click;
             // 
             // searchbtn
             // 
-            this.searchbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.searchbtn.Location = new System.Drawing.Point(553, 80);
-            this.searchbtn.Name = "searchbtn";
-            this.searchbtn.Size = new System.Drawing.Size(141, 33);
-            this.searchbtn.TabIndex = 5;
-            this.searchbtn.Text = "Search ";
-            this.searchbtn.UseVisualStyleBackColor = true;
-            this.searchbtn.Click += new System.EventHandler(this.searchbtn_Click);
+            searchbtn.Font = new Font("Microsoft Sans Serif", 16F);
+            searchbtn.Location = new Point(645, 92);
+            searchbtn.Margin = new Padding(4, 3, 4, 3);
+            searchbtn.Name = "searchbtn";
+            searchbtn.Size = new Size(164, 38);
+            searchbtn.TabIndex = 5;
+            searchbtn.Text = "Search ";
+            searchbtn.UseVisualStyleBackColor = true;
+            searchbtn.Click += searchbtn_Click;
             // 
             // textBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.textBox1.Location = new System.Drawing.Point(300, 81);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(203, 32);
-            this.textBox1.TabIndex = 6;
+            textBox1.Font = new Font("Microsoft Sans Serif", 16F);
+            textBox1.Location = new Point(350, 93);
+            textBox1.Margin = new Padding(4, 3, 4, 3);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(236, 32);
+            textBox1.TabIndex = 6;
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F);
-            this.label2.Location = new System.Drawing.Point(129, 84);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(122, 26);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Enter ISBN";
+            label2.AutoSize = true;
+            label2.Font = new Font("Microsoft Sans Serif", 16F);
+            label2.Location = new Point(150, 97);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(122, 26);
+            label2.TabIndex = 7;
+            label2.Text = "Enter ISBN";
             // 
-            // Form1
+            // DELETEBOOkFORM
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(219)))), ((int)(((byte)(226)))), ((int)(((byte)(239)))));
-            this.ClientSize = new System.Drawing.Size(800, 461);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.searchbtn);
-            this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.deletebtn);
-            this.Controls.Add(this.label1);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(45)))), ((int)(((byte)(78)))));
-            this.Name = "Form1";
-            this.Text = "Delete Form 1";
-            this.TransparencyKey = System.Drawing.Color.FromArgb(((int)(((byte)(249)))), ((int)(((byte)(247)))), ((int)(((byte)(247)))));
-            this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(219, 226, 239);
+            ClientSize = new Size(933, 532);
+            Controls.Add(label2);
+            Controls.Add(textBox1);
+            Controls.Add(searchbtn);
+            Controls.Add(dataGridView1);
+            Controls.Add(deletebtn);
+            Controls.Add(label1);
+            ForeColor = Color.FromArgb(17, 45, 78);
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "DELETEBOOkFORM";
+            Text = "Delete Form 1";
+            TransparencyKey = Color.FromArgb(249, 247, 247);
+            Load += DELETEBOOkFORM_Load;
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -129,4 +136,5 @@
         private System.Windows.Forms.Label label2;
     }
 }
+
 
