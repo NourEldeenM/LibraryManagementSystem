@@ -16,6 +16,12 @@ public partial class UpdateBookForm : Form
     {
         InitializeComponent();
     }
+    public void BackLink_Click(object sender, EventArgs e){
+             
+                menuAdmin mAdmin = new manuAdmin();
+                mAdmin.Show();
+                this.Hide();
+        }
     private void clear_click(object sender, EventArgs e)
         {
             ISBNVal.Clear();
@@ -108,3 +114,4 @@ public partial class UpdateBookForm : Form
 
 }
 }
+
