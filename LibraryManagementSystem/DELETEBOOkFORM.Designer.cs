@@ -1,4 +1,4 @@
-namespace WindowsFormsApp2
+namespace LibraryManagementSystem
 {
     partial class DELETEBOOkFORM
     {
