@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,22 +9,24 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp3
+namespace LibraryManagementSystem
 {
-    public partial class Form1 : Form
+    public partial class DeleteStudentForm : Form
     {
-        String sql = "Data Source=NADRASAAD\\SQLEXPRESS;Initial Catalog=LIBRARY_DB;Integrated Security=True";
+        SqlConnection conn = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\LibraryManagementSystem\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security=True");
+        //SqlConnection connect = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\Study\DataBase\LibraryManagementSystem-master\LibraryManagementSystem-master\LibraryManagementSystem\LIBR_DB.mdf;Integrated Security = True");
+        ConnectionState state = ConnectionState.Open;
 
-        SqlConnection conn;
-
-        public Form1()
+        public DeleteStudentForm()
         {
             InitializeComponent();
-            conn = new SqlConnection(sql); // Initialize the SqlConnection object
+            //conn = new SqlConnection(sql); // Initialize the SqlConnection object
         }
-        private void Form1_Load(object sender, EventArgs e)
+        private void DeleteStudentForm_Load(object sender, EventArgs e)
         {
             dataGridView1.DataSource = LoadUsertable();
+            
+
         }
         public DataTable LoadUsertable()
         {
@@ -75,50 +77,59 @@ namespace WindowsFormsApp3
 
         private void deletebtn_Click(object sender, EventArgs e)
         {
-    if (dataGridView1.CurrentRow != null)
-    {
-        DialogResult result = MessageBox.Show("Are you sure you want to delete this user?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-        if (result == DialogResult.Yes)
-        {
-            try
+            if (dataGridView1.CurrentRow != null)
             {
-                conn.Open();
+                DialogResult result = MessageBox.Show("Are you sure you want to delete this user?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
+                {
+                    try
+                    {
+                        conn.Open();
 
-                // Delete related records from BORROW table
-                string deleteBorrowQuery = "DELETE FROM BORROW WHERE USER_ID = @userid";
-                SqlCommand deleteBorrowCmd = new SqlCommand(deleteBorrowQuery, conn);
-                deleteBorrowCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
-                deleteBorrowCmd.ExecuteNonQuery();
+                        // Delete related records from BORROW table
+                        string deleteBorrowQuery = "DELETE FROM BORROW WHERE USER_ID = @userid";
+                        SqlCommand deleteBorrowCmd = new SqlCommand(deleteBorrowQuery, conn);
+                        deleteBorrowCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                        deleteBorrowCmd.ExecuteNonQuery();
 
-                // Delete related records from STUDENT table
-                string deleteStudentsQuery = "DELETE FROM STUDENT WHERE USER_ID = @userid";
-                SqlCommand deleteStudentsCmd = new SqlCommand(deleteStudentsQuery, conn);
-                deleteStudentsCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
-                deleteStudentsCmd.ExecuteNonQuery();
+                        // Delete related records from STUDENT table
+                        string deleteStudentsQuery = "DELETE FROM STUDENT WHERE USER_ID = @userid";
+                        SqlCommand deleteStudentsCmd = new SqlCommand(deleteStudentsQuery, conn);
+                        deleteStudentsCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                        deleteStudentsCmd.ExecuteNonQuery();
 
-                // Delete record from USER table
-                string deleteUserQuery = "DELETE FROM [USER] WHERE USER_ID = @userid";
-                SqlCommand deleteUserCmd = new SqlCommand(deleteUserQuery, conn);
-                deleteUserCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
-                deleteUserCmd.ExecuteNonQuery();
+                        // Delete record from USER table
+                        string deleteUserQuery = "DELETE FROM [USER] WHERE USER_ID = @userid";
+                        SqlCommand deleteUserCmd = new SqlCommand(deleteUserQuery, conn);
+                        deleteUserCmd.Parameters.AddWithValue("@userid", dataGridView1.CurrentRow.Cells["USER_ID"].Value.ToString());
+                        deleteUserCmd.ExecuteNonQuery();
 
-                conn.Close();
-                MessageBox.Show("User deleted successfully");
+                        conn.Close();
+                        MessageBox.Show("User deleted successfully");
 
-                // Refresh DataGridView by re-loading data
-                dataGridView1.DataSource = LoadUsertable();
+                        // Refresh DataGridView by re-loading data
+                        dataGridView1.DataSource = LoadUsertable();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Please select a row to delete.");
             }
         }
-    }
-    else
-    {
-        MessageBox.Show("Please select a row to delete.");
-    }
-    }
 
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
