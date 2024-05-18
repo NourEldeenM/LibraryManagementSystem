@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsFormsApp2
+namespace LibraryManagementSystem
 {
     public partial class DELETEBOOkFORM : Form
     {
