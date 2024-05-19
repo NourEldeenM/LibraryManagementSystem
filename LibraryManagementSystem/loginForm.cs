@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data;
 using System.Data.SqlClient;
-using Microsoft.VisualBasic.ApplicationServices;
 using System.Security.Cryptography;
 
 namespace LibraryManagementSystem
 {
     public partial class loginForm : Form
     {
-        SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\LibraryManagementSystem\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security=True");
-        //SqlConnection connect = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\Study\DataBase\LibraryManagementSystem-master\LibraryManagementSystem-master\LibraryManagementSystem\LIBR_DB.mdf;Integrated Security = True");
+        //SqlConnection connect = new SqlConnection(@"Data Source=DESKTOP-IJ8RCOH\SQLEXPRESS01;Initial Catalog=LIBRARY_DB;Integrated Security=True;Encrypt=False;MultipleActiveResultSets=true");
+        
+        SqlConnection connect = new SqlConnection(@"Data Source = (LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\Study\DataBase\LibraryManagementSystem-master\LibraryManagementSystem-master\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security = True");
         ConnectionState state = ConnectionState.Open;
+        
         public loginForm()
         {
             InitializeComponent();
@@ -85,18 +86,43 @@ namespace LibraryManagementSystem
                               !string.IsNullOrWhiteSpace(passField.Text);
         }
 
+        private bool checkIsAdmin(string username)
+        {
+            SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\LibraryManagementSystem\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security=True");
+            if (connect.State != ConnectionState.Open)
+            {
+                connect.Open();
+                //MessageBox.Show("not opened!");
+            }
+            string query = $"SELECT is_admin FROM [USER] WHERE USERNAME = '{username}';";
+            SqlDataAdapter a = new SqlDataAdapter(query, connect);
+            DataTable dt = new DataTable();
+            a.Fill(dt);
+
+            if (dt.Rows.Count != 0)
+            {
+                DataRow row = dt.Rows[0];
+                if (row["is_admin"].ToString() == "True")
+                    return true;
+            }
+            return false;
+            connect.Close();
+        }
+
         private void loginButton_Click(object sender, EventArgs e)
         {
-            if(connect.State != ConnectionState.Open)
+            SqlConnection connect = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Mariam Omar\Desktop\LibraryManagementSystem\LibraryManagementSystem\LIBRARY_DB.mdf;Integrated Security=True");
+
+            if (connect.State != ConnectionState.Open)
             {
                 connect.Open();
                 //MessageBox.Show("not opened!");
             }
             if (connect.State == ConnectionState.Open)
             {
-                MessageBox.Show("opened!");
+                //MessageBox.Show("opened!");
             }
-                CheckFields();
+            CheckFields();
             if (!areFieldsFilled)
             {
                 fillAll.Visible = true;
@@ -104,7 +130,7 @@ namespace LibraryManagementSystem
             else if (areFieldsFilled) //hykon feh kol el fuctions
             {
                 string query = "SELECT * FROM [USER] WHERE USERNAME = @username";
-                using(SqlCommand cmd = new SqlCommand(query , connect))
+                using (SqlCommand cmd = new SqlCommand(query, connect))
                 {
                     cmd.Parameters.AddWithValue("@username", usernameText.Text.Trim());
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -117,16 +143,33 @@ namespace LibraryManagementSystem
                             string mypassword = passField.Text.Trim(); //user in login
                             byte[] encryptedPasswordBytes = EncryptPassword(mypassword); //in login
                             string encryptedPassword = Convert.ToBase64String(encryptedPasswordBytes);
-                            MessageBox.Show(password);
-                            MessageBox.Show(encryptedPassword); //base64
+                           // MessageBox.Show(password);
+                           // MessageBox.Show(encryptedPassword); //base64
                             if (password.Equals(encryptedPassword))
-                            {
+                            { 
                                 // The password is correct, log in the user
                                 MessageBox.Show("Login successful!");
-                                // Switch to the main form
-                                //MainForm mForm = new MainForm();
-                                //mForm.Show();
-                                //this.Hide();
+                                if (checkIsAdmin(usernameText.Text.Trim()) == true)
+                                {
+                                    /*menuAdmin ma = new menuAdmin();
+                                    ma.Show();
+                                    this.Hide();
+                                    return;*/
+                                    MessageBox.Show("it's admin");
+                                    addBookAdmin.LoggedInUsername = usernameText.Text.Trim();
+                                    MessageBox.Show("loggedinUsername is " + (addBookAdmin.LoggedInUsername ?? "null"));
+                                    addBookAdmin addBookForm = new addBookAdmin();
+                                    addBookForm.Show();
+                                    this.Hide();
+                                }
+                                else if (checkIsAdmin(usernameText.Text.Trim()) == false)
+                                {
+                                    /*menuUser mu = new menuUser();
+                                    mu.Show();
+                                    this.Hide();
+                                    return;*/
+                                    MessageBox.Show("it's student");
+                                }
                             }
                             else
                             {
@@ -148,67 +191,20 @@ namespace LibraryManagementSystem
 
 
 
-// "messageBox" wrong password or username doesnt exist             (done)
-// check all inputs are filled                                     (done)
-// search the username in the table                                 (done) 
-// encrypt the password and check if it's correct                     (done)
-// check connection                                                 (done)
-// 
 
 
 
-/*
-private void loginButton_Click(object sender, EventArgs e)
-{
-    if (connect.State != ConnectionState.Open)
-    {
-        connect.Open();
-        //MessageBox.Show("not opened!");
-    }
-    if (connect.State == ConnectionState.Open)
-    {
-        MessageBox.Show("opened!");
-    }
-    CheckFields();
-    if (!areFieldsFilled)
-    {
-        fillAll.Visible = true;
-    }
-    else if (areFieldsFilled) //hykon feh kol el fuctions
-    {
-        string query = "SELECT * FROM [USER] WHERE USERNAME = @username";
-        using (SqlCommand cmd = new SqlCommand(query, connect))
-        {
-            cmd.Parameters.AddWithValue("@username", usernameText.Text.Trim());
-            using (SqlDataReader reader = cmd.ExecuteReader())
-            {
-                if (reader.Read())
-                {
-                    // The username exists, check the password
-                    string password = reader["PASSWORD"].ToString();
-                    if (password == passwordText.Text.Trim())
-                    {
-                        // The password is correct, log in the user
-                        MessageBox.Show("Login successful!");
-                        // Switch to the main form
-                        MainForm mForm = new MainForm();
-                        mForm.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        // The password is incorrect, show an error message
-                        MessageBox.Show("Incorrect password", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                else
-                {
-                    // The username does not exist, show an error message
-                    MessageBox.Show("Username not found", "Error Message", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-        }
-    }
-}
 
-*/
+
+
+
+
+
+
+
+
+
+
+
+
+
